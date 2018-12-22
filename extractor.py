@@ -25,6 +25,15 @@ xxxhdpi_path = '/drawable-xxxhdpi'
 
 image_versions_path = ['/drawable-mdpi', '/drawable-hdpi', '/drawable-xhdpi', '/drawable-xxhdpi', '/drawable-xxxhdpi']
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def print_list(l):
     for item in l:
@@ -48,7 +57,12 @@ def run():
             src = '.' + path + '/' + image_name
             dest = image_dest_folder + os.path.splitext(image_name)[0] + path + '/' + image_name
             print('Copying from ' + src + ' to ' + dest)
-            copyfile(src, dest)
+            try:
+                copyfile(src, dest)
+            except IOError as e:
+                    print(bcolors.FAIL + str(e) +  bcolors.ENDC)
+                    pass
+            
 
 for(dirpath, dirnames, filenames) in os.walk(image_name_path):
     full_image_names.extend(filenames)
@@ -68,3 +82,4 @@ run()
 # Resources
 # https://stackoverflow.com/questions/3207219/how-do-i-list-all-files-of-a-directory?rq=1
 # https://stackoverflow.com/questions/123198/how-do-i-copy-a-file-in-python
+# https://stackoverflow.com/questions/287871/print-in-terminal-with-colors
